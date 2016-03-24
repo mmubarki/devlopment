@@ -1,0 +1,9 @@
+<<<<<<< HEAD
+/Volumes/SWAP/476/assignments/assignment2/src/main/java/master/cpsc476/Event.java
+/Volumes/SWAP/476/assignments/assignment2/src/main/java/master/cpsc476/User.java
+/Volumes/SWAP/476/assignments/assignment2/src/main/java/master/cpsc476/EventsServelt.java
+=======
+/Volumes/SWAP/476/assignments/assignment1-net/src/main/java/master/cpsc476/Event.java
+/Volumes/SWAP/476/assignments/assignment1-net/src/main/java/master/cpsc476/EventsServelt.java
+/Volumes/SWAP/476/assignments/assignment1-net/src/main/java/master/cpsc476/User.java
+>>>>>>> parent of 3792d5a... fixed order of events list in main page
