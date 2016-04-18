@@ -1,32 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <display-name>Share Calendar Events</display-name>
+    
     <servlet>
-        <servlet-name>EventsServelt</servlet-name>
-        <servlet-class>master.cpsc476.EventsServelt</servlet-class>
+        <servlet-name>EventsDispatcher</servlet-name>
+        <servlet-class>
+            org.springframework.web.servlet.DispatcherServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+      
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>/WEB-INF/EventsDispatcher-servlet.xml</param-value>
+        </init-param>
+
     </servlet>
     <servlet-mapping>
-        <servlet-name>EventsServelt</servlet-name>
+        <servlet-name>EventsDispatcher</servlet-name>
+        <url-pattern>/</url-pattern>
         <url-pattern>/Events</url-pattern>
+        <url-pattern>/Events*</url-pattern>
     </servlet-mapping>
-    
-    
-        <!--
-            configuring Spring using XML
-            Normally: ContextLoaderListener and DispatcherServlet 
-                        create instances of XMLWebApplicationContext
-        -->
-       <context-param>
-            <param-name>contextConfigLocation</param-name>
-            <param-value>/META-INF/applicationContext*.xml</param-value>
-        </context-param>
-
-        <listener>
-           <listener-class>
-                org.springframework.web.context.ContextLoaderListener
-           </listener-class>
-        </listener> 
-    
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/public/*</url-pattern>
+    </servlet-mapping>
+        
     <session-config>
         <session-timeout>
             30

@@ -1,22 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package master.cpsc476.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-import java.sql.Timestamp;
-import java.sql.Types;
-import java.util.List;
-import javax.sql.DataSource;
 import master.cpsc476.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -26,16 +16,6 @@ import org.springframework.jdbc.support.KeyHolder;
  * @author Mussa
  */
 public class UserDAOImp extends JdbcDaoSupport implements UserDAO{
-
-    //@Autowired private DataSource dataSource;
-    //@Autowired
-    //private JdbcTemplate jdbcTemplate;
-    /*
-    @Autowired
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }*/
-    
 
     @Override
     public User findById(Long id) {
@@ -90,8 +70,8 @@ public class UserDAOImp extends JdbcDaoSupport implements UserDAO{
     }
 
     @Override
-    public User isMatch(String email, String password) {
-        System.out.println("inside user dao isMatch email:"+email+" pass:"+ password);
+    public User isMatch(User user) {
+        System.out.println("inside user dao isMatch email:"+user.getEmail()+" pass:"+ user.getPassword());
         String SQL = " select id,email,name from Mussa.User where email = ? and password= ? ";
         try{
             return getJdbcTemplate()
@@ -99,7 +79,7 @@ public class UserDAOImp extends JdbcDaoSupport implements UserDAO{
                             /*  ps -> {ps.setString(1,email);
                                    ps.setString(2,password);
                             },*/
-                            new Object[] { email,  password },
+                            new Object[] { user.getEmail(),  user.getPassword() },
                             (rs,rowNum) -> {
                                 return new User(rs.getLong("id"),
                                                 rs.getString("name"),

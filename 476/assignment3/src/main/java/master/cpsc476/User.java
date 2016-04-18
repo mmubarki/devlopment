@@ -7,6 +7,8 @@ package master.cpsc476;
 
 import java.util.List;
 import java.util.Map;
+import master.cpsc476.forms.LoginDetail;
+import master.cpsc476.forms.SignupDetail;
 
 /**
  *
@@ -24,6 +26,15 @@ public class User {
         this.id = id;
         this.name = name;
         this.email = email;
+    }
+    User(SignupDetail signupDetail) {
+        this.setName(signupDetail.getName());
+        this.setEmail(signupDetail.getEmail());
+        this.setPassword(signupDetail.getPassword());
+    }
+    User(LoginDetail loginDetail) {
+        this.setEmail(loginDetail.getEmail());
+        this.setPassword(loginDetail.getPassword());
     }
     public Long getId() {
         return id;

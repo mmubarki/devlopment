@@ -7,18 +7,12 @@ package master.cpsc476.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.sql.Types;
 import java.util.List;
-import javax.sql.DataSource;
 import master.cpsc476.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -165,7 +159,7 @@ public class EventDAOImp extends JdbcDaoSupport implements EventDAO{
                 .append("?,?,?,?,?) ")
                 .toString();
         System.out.println("SQL:"+SQL);
-        System.out.println("Timestamp.valueOf(event.getTime()):"+Timestamp.valueOf(event.getTime()));
+        System.out.println("Timestamp.valueOf(event.getTime()):"+Timestamp.valueOf(event.getEventTime()));
         System.out.println("event.getCreatedBy():"+event.getCreatedBy());
         KeyHolder keyHolder = new GeneratedKeyHolder();
         try{
@@ -176,7 +170,7 @@ public class EventDAOImp extends JdbcDaoSupport implements EventDAO{
                     pst.setString(1, event.getTitle());
                     pst.setString(2, event.getDescription());
                     pst.setString(3, event.getLocation());
-                    pst.setTimestamp(4, Timestamp.valueOf(event.getTime()));
+                    pst.setTimestamp(4, Timestamp.valueOf(event.getEventTime()));
                     pst.setLong(5, event.getCreatedBy());
                     return pst;
                 },

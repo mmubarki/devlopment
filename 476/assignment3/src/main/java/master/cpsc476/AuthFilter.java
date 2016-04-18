@@ -18,12 +18,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import master.cpsc476.User;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.web.servlet.HandlerMapping;
 
 /**
  *
- * @author a
+ * @author Mussa
  */
-@WebFilter(filterName = "AuthFilter", servletNames = {"EventsServelt"}, dispatcherTypes = {DispatcherType.REQUEST})
+@WebFilter(filterName = "AuthFilter", servletNames = {"EventsDispatcher"}, dispatcherTypes = {DispatcherType.REQUEST})
 public class AuthFilter implements Filter {
     
     private FilterConfig filterConfig = null;
@@ -44,16 +46,37 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
-        String action = request.getParameter("action");
+        
+        HttpServletRequest req = (HttpServletRequest) request;
+        System.out.println("req.getRequestURI():"+req.getRequestURI());
+        System.out.println("req.getContextPath():"+req.getContextPath());
+        
+        String path = req.getRequestURI().substring(req.getContextPath().length());
+        System.out.println("path without context:"+path);
+        path = path.replace("/Events", "") ; // lookinf for action in uri /Events/{action}/...
+        int i = path.indexOf("/",1);//look up "/" 
+        if(i >0){ // action in uri
+          path = path.substring(1,i); 
+        }else if(path.length() > 0){ // set yhe default action=list
+          path = path.substring(1); 
+        }else {
+            path="list";
+        }
+        String action  = path;
+        System.out.println("inside filter: doFilter");
+        System.out.println("path:"+path);
+        System.out.println("action:"+action);
+        
+        //String action = request.getParameter("action");
         if(Stream.of("create","createEvent","userHome","likeEvent","unlikeEvent").anyMatch(e -> e.equals(action))){
             HttpSession session = ((HttpServletRequest) request).getSession();
             User user = (User) session.getAttribute("user");
             if(user == null){
                 String sourceJsp = request.getParameter("sourceJsp");
                 if(sourceJsp == null){
-                    sourceJsp = "Events?action=list";
+                    sourceJsp = "/list";
                 }else{
-                    sourceJsp = "/WEB-INF/jsp/"+sourceJsp;
+                    sourceJsp = "/WEB-INF/jsp/"+sourceJsp+".jsp";
                 }
                 System.out.println("sourceJsp:"+sourceJsp);
                 session.setAttribute("message","in filter action:"+action+" message: login first" );

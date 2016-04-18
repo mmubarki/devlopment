@@ -4,7 +4,6 @@
     Author     : a
 --%>
 
-<%@include file="../top.jspf" %>
 
 <%
     Event event = (Event)request.getAttribute("event");
@@ -18,16 +17,14 @@
         <title>Event View</title>
     </head>
     <body>
+        <%@include file="../top.jspf" %>
+
         <c:if test="${user != null}" >
-            <c:url var="createEventUrl" value="Events">
-                <c:param name='action' value="create" /> 
-            </c:url>
+            <c:url var="createEventUrl" value="/Events/create"/>
             <a href="${createEventUrl}"><c:out value="create event" /> </a><br><br>
         </c:if>
         <c:if test="${user == null}" >
-            <c:url var="listEventsUrl" value="Events">
-                <c:param name='action' value="list" /> 
-            </c:url>
+            <c:url var="listEventsUrl" value="/Events/list"/>
             <a href="${listEventsUrl}"><c:out value="Events List" /> </a><br><br>
         </c:if>
                 
@@ -43,8 +40,8 @@
         <c:out value="${event.getDescription()}"/><br/><br/>
             
         <span class="label">Time</span><br/>
-        <input type="hidden" name='dateTime' id='dateTime' value="${event.getTimeStr()}"/>
-        <c:out value="${event.getTimeStr()}"/><br/><br/>
+        <input type="hidden" name='dateTime' id='dateTime' value="${event.getEventTimeStr()}"/>
+        <c:out value="${event.getEventTimeStr()}"/><br/><br/>
             
         <span class="label">Location</span><br/>
         <input type="hidden" name='location' id='location' value="${event.getLocation()}"/>
@@ -53,10 +50,10 @@
         <div id="map" style="width:500px;height:380px;" ></div>
 
             
-        <script src="public/jquery-2.0.3.min.js"></script>
-        <script src="public/gmaps.js" type="text/javascript"></script>
-        <script src="public/maps-googleapis.js" type="text/javascript"></script>
-        <script src="public/EventList.js" type="text/javascript"></script>
-        <script src="public/top.js"></script>
+        <script src="/public/jquery-2.0.3.min.js"></script>
+        <script src="/public/gmaps.js" type="text/javascript"></script>
+        <script src="/public/maps-googleapis.js" type="text/javascript"></script>
+        <script src="/public/EventList.js" type="text/javascript"></script>
+        <script src="/public/top.js"></script>
     </body>
 </html>

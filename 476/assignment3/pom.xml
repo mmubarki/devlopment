@@ -2,10 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>master.cpsc476</groupId>
-  <artifactId>assignment2</artifactId>
+  <artifactId>assignment3</artifactId>
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>assignment2</name>
+  <name>assignment3</name>
 
   <url>http://maven.apache.org</url>
  <properties>  
@@ -31,15 +31,11 @@
       <version>1</version>
       <scope>compile</scope>
     </dependency>
-
     <dependency>
       <groupId>javax.annotation</groupId>
       <artifactId>javax.annotation-api</artifactId>
       <version>1.2</version>
-
-    </dependency>
-    
-
+    </dependency>    
     <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-core</artifactId>
@@ -61,7 +57,6 @@
         <artifactId>spring-jdbc</artifactId>
         <version>${spring.version}</version>
     </dependency>
-    
     <dependency>
         <groupId>commons-dbcp</groupId>
         <artifactId>commons-dbcp</artifactId>
@@ -92,7 +87,7 @@
 </dependency>
   </dependencies>
   <build>
-      <finalName>assignment2</finalName>
+      <finalName>assignment3</finalName>
       <defaultGoal>tomcat7:deploy</defaultGoal>
       <plugins>
       	<plugin>  

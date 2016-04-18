@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/mvc
+            http://www.springframework.org/schema/mvc/spring-mvc.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/jdbc 
+            http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+
+        
+    <mvc:annotation-driven />
+    <context:component-scan base-package="master.cpsc476" />
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
+        <property name="url" value="jdbc:hsqldb:hsql:/localhost/test"/>
+        <property name="username" value="A"/>
+        <property name="password" value=""/>
+        <property name="initialSize" value="10"/>
+        <property name="testOnBorrow" value="true"/>
+    </bean>
+    
+    
+    <jdbc:initialize-database data-source="dataSource" ignore-failures="ALL">
+        <jdbc:script execution="INIT" location="/META-INF/schema.sql" />
+        <jdbc:script execution="INIT" location="/META-INF/test-data.sql" />
+    </jdbc:initialize-database>
+
+    <bean name="EventDAOImp" class="master.cpsc476.dao.EventDAOImp" >
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <bean name="UserDAOImp" class="master.cpsc476.dao.UserDAOImp" >
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    
+    
+    
+    <bean id="viewResolver"
+    	      class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
+        <property name="prefix">
+            <value>/WEB-INF/jsp/</value>
+         </property>
+        <property name="suffix">
+           <value>.jsp</value>
+        </property>
+    </bean>
+    
+</beans>

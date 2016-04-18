@@ -3,7 +3,6 @@
     Created on : Feb 16, 2016, 10:12:01 AM
     Author     : Mussa
 --%>
-<%@include file="../top.jspf" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -11,12 +10,11 @@
         <title>Events List</title>
     </head>
     <body>
+        <%@include file="../top.jspf" %>
 
         <h3>Events List</h3>
         <c:if test="${user != null}" >
-            <c:url var="createEventUrl" value="Events">
-                <c:param name='action' value="create" /> 
-            </c:url>
+            <c:url var="createEventUrl" value="/Events/create"/>
             <a href="${createEventUrl}"><c:out value="create event" /> </a><br><br>
         </c:if>
         <c:choose>
@@ -35,36 +33,30 @@
                 <c:forEach items="${eventsCollection}" var="event">
                     <tr>
                         <td>
-                            <c:url var="viewEventUrl" value='Events'>
-                                <c:param name="action" value="view"/>
-                                <c:param name="eventId" value="${event.getId()}"/>
-                            </c:url>
+                            <c:url var="viewEventUrl" value='/Events/view/${event.getId()}'/>
                             <a href='${viewEventUrl}'> 
                             <c:out value="${event.getTitle()}"/>                
                             </a> 
                             <input type="hidden" name='title' id='title' value="${event.getTitle()}"/>
                             <input type="hidden" name='description' id='description' value="${event.getDescription()}"/>
                           </td>
-                          <td>&ensp;&ensp;<c:out value="${event.getTimeStr()}"/>
+                          <td>&ensp;&ensp;<c:out value="${event.getEventTimeStr()}"/>
                               
-                            <input type="hidden" name='dateTime' id='dateTime' value="${event.getTimeStr()}"/>
+                            <input type="hidden" name='dateTime' id='dateTime' value="${event.getEventTimeStr()}"/>
                           </td>
                           <td>&ensp;&ensp;<c:out value="${event.getLocation()}"/>
                               <input type="hidden" name='location' id='location' value="${event.getLocation()}"/>
                           </td>
                             <td>
-                            <c:if test="${user != null &&
-                                          user.getInterestedEvents() != null &&
-                                           !user.getInterestedEvents().contains(event)}">
+                            <c:if test="${user != null && (user.getInterestedEvents() == null ||
+                                          (user.getInterestedEvents() != null &&
+                                           !user.getInterestedEvents().contains(event)))}">
                                 
-                                <c:url var="likeEventUrl" value='Events'>
-                                    <c:param name="action" value="likeEvent"/>
-                                    <c:param name="userId" value="${user.getId()}"/>
-                                    <c:param name="eventId" value="${event.getId()}"/>
-                                </c:url>
+                                <c:url var="likeEventUrl" 
+                                       value='/Events/likeEvent/${user.getId()}/${event.getId()}'/>
                                 &ensp;&ensp;
                                 <a href='${likeEventUrl}'> 
-                                    <img src="public/like.png" alt="Like" width="15" height="15"/>
+                                    <img src="${pageContext.request.contextPath}/public/like.png" alt="Like" width="15" height="15"/>
                                 </a>                                     
                               </c:if>
                               </td>
@@ -78,12 +70,11 @@
                 there are no coming events
             </c:otherwise>
         </c:choose>                
-
-        <script src="public/jquery-2.0.3.min.js"></script>
-        <script src="public/gmaps.js" type="text/javascript"></script>
-        <script src="public/maps-googleapis.js" type="text/javascript"></script>
-        <script src="public/EventList.js" type="text/javascript"></script>
-        <script src="public/top.js"></script>
+        <script src="${pageContext.request.contextPath}/public/jquery-2.0.3.min.js"></script>
+        <script src="${pageContext.request.contextPath}/public/gmaps.js" type="text/javascript"></script>
+        <script src="${pageContext.request.contextPath}/public/maps-googleapis.js" type="text/javascript"></script>
+        <script src="${pageContext.request.contextPath}/public/EventList.js" type="text/javascript"></script>
+        <script src="${pageContext.request.contextPath}/public/top.js"></script>
         
     </body>
 </html>

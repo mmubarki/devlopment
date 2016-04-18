@@ -10,6 +10,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Objects;
+import master.cpsc476.forms.EventDetail;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 /**
  *
@@ -19,7 +22,8 @@ public class Event implements Comparable<Event>{
        private Long id=null;
        private String title=null;
        private String description=null;
-       private LocalDateTime time=null;
+       @DateTimeFormat(iso = ISO.DATE_TIME)
+       private LocalDateTime eventTime=null;
        private String location=null;
        private Long createdBy =null;
     public Event(){}   
@@ -28,11 +32,19 @@ public class Event implements Comparable<Event>{
        this.id=id;
        this.title=title;
        this.description=description;
-       this.time=time;
+       this.eventTime=time;
        this.location=location;
        this.createdBy =createdBy;
     }
-
+    Event(EventDetail eventDetail) {
+       this.id=eventDetail.getId();
+       this.title=eventDetail.getTitle();
+       this.description=eventDetail.getDescription();
+       this.eventTime= LocalDateTime.parse(
+                            eventDetail.getEventTime());
+       
+       this.location=eventDetail.getLocation();
+    }
     public DateTimeFormatter getEventTimeFormat() {
         return DateTimeFormatter.ofPattern("MMM dd,yyyy HH:mm");
     }
@@ -61,15 +73,15 @@ public class Event implements Comparable<Event>{
         this.description = description;
     }
 
-    public LocalDateTime getTime() {
-        return time;
+    public LocalDateTime getEventTime() {
+        return eventTime;
     }
     
-    public String getTimeStr() {
-        return time.format(this.getEventTimeFormat());
+    public String getEventTimeStr() {
+        return eventTime.format(this.getEventTimeFormat());
     }
-    public void setTime(LocalDateTime time) {
-        this.time = time;
+    public void setEventTime(LocalDateTime eventTime) {
+        this.eventTime = eventTime;
     }
 
     public String getLocation() {
@@ -91,12 +103,12 @@ public class Event implements Comparable<Event>{
     @Override
     public String toString(){
         return "event: "+this.getId()+" is:"+this.getTitle()
-                + " In: "+this.getTimeStr()+" At:"+this.getLocation();
+                + " In: "+this.getEventTimeStr()+" At:"+this.getLocation();
     }  
 
    @Override
     public int compareTo(Event otherEvent) {
-        return this.getTime().compareTo( otherEvent.getTime());
+        return this.getEventTime().compareTo( otherEvent.getEventTime());
     }
     
     @Override
