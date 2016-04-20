@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <persistence-unit name="EventsPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence
+        <!--com.objectdb.jpa.Provider--></provider>
+    <properties><!--
+        <property name="javax.persistence.jdbc.url"
+                 value="$objectdb/db/events.odb"/>
+        <property name="javax.persistence.jdbc.user" value="admin"/>
+        <property name="javax.persistence.jdbc.password" value="admin"/>
+        <property name="javax.persistence.sql-load-script-source" value="META-INF/test-data.sql"/>
+        <property name="javax.persistence.sql-load-script-source" value="false"/>    
+    --> 
+      <property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:hsql:/localhost/test"/>
+      <property name="javax.persistence.jdbc.user" value="A"/>
+      <property name="javax.persistence.jdbc.password" value=""/>
+      <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
+      
+        <property name="hibernate.show_sql" value="true"/>
+        <property name="hibernate.format_sql" value="true"/>
+            
+      <property name="hibernate.hbm2ddl.auto" value="create"/>
+      <property name="hibernate.hbm2ddl.import_files" value="META-INF/test-data.sql"/>
+        
+            
+    </properties>
+  </persistence-unit>
+</persistence>
