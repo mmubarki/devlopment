@@ -6,24 +6,16 @@
         http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd
         http://www.springframework.org/schema/beans 
         http://www.springframework.org/schema/beans/spring-beans.xsd">
-<!--
-    <jdbc:embedded-database id="dataSource">
-        <jdbc:script location="/META-INF/schema.sql" />
-        <jdbc:script location="/META-INF/test-data.sql" />
-    </jdbc:embedded-database>-->
-
-  
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
-        <property name="url" value="jdbc:hsqldb:hsql:/localhost/test"/>
-        <property name="username" value="A"/>
-        <property name="password" value=""/>
+        <property name="url" value="jdbc:hsqldb:hsql:/localhost/cpsc476"/>
+        <property name="username" value="SA"/>
+        <property name="password" value="Passw0rd"/>
         <property name="initialSize" value="10"/>
         <property name="testOnBorrow" value="true"/>
-        
+
     </bean>
-    
-    
+
     <jdbc:initialize-database data-source="dataSource" ignore-failures="ALL">
         <jdbc:script execution="INIT" location="/META-INF/schema.sql" />
         <jdbc:script execution="INIT" location="/META-INF/test-data.sql" />
