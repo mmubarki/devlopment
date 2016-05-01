@@ -5,23 +5,16 @@
  */
 package master.cpsc476.dao;
 
-import java.util.List;
-import javax.sql.DataSource;
+import java.util.Set;
 import master.cpsc476.*;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
  *
  * @author Mussa 
  */
 public interface EventDAO {
-    //public void setJdbcTemplate(JdbcTemplate jdbcTemplate);
-    public List<Event> findAll();
-    public List<Event> findAllEventsActive();
-    public List<Event> findEventsCreatedByUser(User user);
-    public List<Event> findEventsInterestedByUser(User user);
+    public Set<Event> findAll();
+    public Set<Event> findAllEventsActive();
     public Event findById(Long id);
-    public Event createEvent(Event event);
-    
-    
+    public Event createEvent(Event event, User user);
 }

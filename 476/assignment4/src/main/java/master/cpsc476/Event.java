@@ -10,8 +10,11 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 import javax.persistence.CascadeType;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -52,8 +55,9 @@ public class Event implements Comparable<Event>,Serializable{
     @JoinColumn(name = "createdBy")
     private User createdBy ;
     
-    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "interestedEvents", cascade = CascadeType.ALL)
-    private List<User> userInterested=new ArrayList<>();;
+    
+    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "interestedEvents")
+    private Set<User> userInterested= new TreeSet<>();
     
     public Event(){}   
     public Event(Long id, String title, String description, 
@@ -130,11 +134,11 @@ public class Event implements Comparable<Event>,Serializable{
         return createdBy;
     }
 
-    public List<User> getUserInterested() {
+    public Set<User> getUserInterested() {
         return userInterested;
     }
 
-    public void setUserInterested(List<User> userInterested) {
+    public void setUserInterested(Set<User> userInterested) {
         this.userInterested = userInterested;
     }
     

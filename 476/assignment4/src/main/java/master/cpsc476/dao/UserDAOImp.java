@@ -5,27 +5,13 @@
  */
 package master.cpsc476.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-import java.sql.Timestamp;
-import java.sql.Types;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
-import javax.sql.DataSource;
 import javax.transaction.Transactional;
 import master.cpsc476.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 
 /**
  *
@@ -76,6 +62,7 @@ public class UserDAOImp implements UserDAO{
             return null;
         }
     } 
+    @Transactional
     @Override
     public User isMatch(String email, String password) {
         System.out.println("inside user dao isMatch email:"+email+" pass:"+ password);
@@ -84,7 +71,9 @@ public class UserDAOImp implements UserDAO{
             Query query = entityManager.createQuery(SQL);
             query.setParameter("email", email);
             query.setParameter("password", password);
-            return (User) query.getSingleResult();
+            User user = (User) query.getSingleResult();
+            System.out.println("event list size:"+user.getInterestedEvents().size());
+            return user;
         }catch (PersistenceException e) {
             System.out.println("PersistenceException:"+e.getMessage());
             return null;
@@ -92,18 +81,22 @@ public class UserDAOImp implements UserDAO{
     }
    
     @Override
+    @Transactional
     public boolean likeEvent(User user, Event event /* TODO doc change param eventid to class event*/) {
         //entityManager.find(User.class, user.getId());
         System.out.println("inside likeEvent:"+user +" event:"+event);
         System.out.println("getInterestedEvents:"+user.getInterestedEvents());
-        if(user.getInterestedEvents() == null)
-            user.setInterestedEvents( new ArrayList<>());
         if(user.getInterestedEvents().contains(event)){
             return false;
         }
-        boolean isAdded = user.getInterestedEvents().add(event);
+        Set<Event> interestedEvent = user.getInterestedEvents();
+        boolean isAdded = interestedEvent.add(event);
+        user.setInterestedEvents(interestedEvent);
+        event.getUserInterested().add(user);
+        
         try{
             entityManager.merge(user);
+            entityManager.merge(event);
             return isAdded;
         }catch (PersistenceException e) {
             System.out.println("PersistenceException:"+e.getMessage());

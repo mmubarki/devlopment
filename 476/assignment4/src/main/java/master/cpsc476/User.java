@@ -6,8 +6,8 @@
 package master.cpsc476;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import master.cpsc476.forms.LoginDetail;
 import master.cpsc476.forms.SignupDetail;
@@ -39,16 +40,18 @@ public class User implements Serializable{
     private String password ;
     
     @ManyToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+    @OrderBy("eventTime ASC")
     @JoinTable(
         name = "InterestedEvents", 
-        joinColumns = { @JoinColumn(name = "userId") }, 
-        inverseJoinColumns = { @JoinColumn(name = "eventId") }
+        joinColumns = @JoinColumn(name = "userId",referencedColumnName ="id") , 
+        inverseJoinColumns =  @JoinColumn(name = "eventId",referencedColumnName ="id") 
     )
-    private List<Event> interestedEvents = new ArrayList<>();;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "createdBy", fetch =FetchType.EAGER )
+    private Set<Event> interestedEvents= new TreeSet<>() ;
     
-    private List<Event> createdEvents = new ArrayList<>();;
+    @OneToMany(mappedBy = "createdBy", fetch =FetchType.EAGER )
+    @OrderBy("eventTime ASC")
+    private Set<Event> createdEvents= new TreeSet<>() ;
     
     public User(){}
     public User(Long id, String name, String email){
@@ -98,19 +101,19 @@ public class User implements Serializable{
         this.password = password;
     }
 
-    public List<Event> getInterestedEvents() {
+    public Set<Event> getInterestedEvents() {
         return interestedEvents;
     }
 
-    public void setInterestedEvents(List<Event> interestedEvents) {
+    public void setInterestedEvents(Set<Event> interestedEvents) {
         this.interestedEvents = interestedEvents;
     }
 
-    public List<Event> getCreatedEvents() {
+    public Set<Event> getCreatedEvents() {
         return createdEvents;
     }
 
-    public void setCreatedEvents(List<Event> createdEvents) {
+    public void setCreatedEvents(Set<Event> createdEvents) {
         this.createdEvents = createdEvents;
     }
     

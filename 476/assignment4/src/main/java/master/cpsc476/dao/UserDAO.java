@@ -5,21 +5,17 @@
  */
 package master.cpsc476.dao;
 
-import java.util.List;
-import javax.sql.DataSource;
 import master.cpsc476.*;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
  *
  * @author MUSSA
  */
 public interface UserDAO {
-    //public void setJdbcTemplate(JdbcTemplate jdbcTemplate);
     public User findById(Long id);
     public User findByEmail(String email);
     public User createUser(User user);
     public User isMatch(String email, String password);
-    public boolean likeEvent(User user, Event event);//TODO doc change parame id to event class
+    public boolean likeEvent(User user, Event event);
     public boolean unlikeEvent(User user, Event event);
 }

@@ -25,7 +25,19 @@
         <servlet-name>default</servlet-name>
         <url-pattern>/public/*</url-pattern>
     </servlet-mapping>
-        
+    
+    <filter>
+        <filter-name>OpenEntityManagerInViewFilter</filter-name>
+        <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+        <init-param>
+            <param-name>entityManagerFactoryBeanName</param-name>
+            <param-value>persistence.EntityManagerFactory</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>OpenEntityManagerInViewFilter</filter-name>
+        <url-pattern>/Events*</url-pattern>
+    </filter-mapping>    
     <session-config>
         <session-timeout>
             30
