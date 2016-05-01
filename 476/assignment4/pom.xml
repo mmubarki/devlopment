@@ -17,20 +17,10 @@
         <javax.version>7.0</javax.version>  
         <java.version>1.7</java.version>
         <spring.version>4.0.0.RELEASE</spring.version>
-        <hibernate.version>5.1.0.Final</hibernate.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>  
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>  
 
     </properties>
-    <repositories>
-            
-        <repository>
-            <id>objectdb</id>
-            <name>ObjectDB Repository</name>
-            <url>http://m2.objectdb.com</url>
-        </repository>
-            
-    </repositories>
     <dependencies>
     
         <dependency>
